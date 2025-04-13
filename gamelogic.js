@@ -17,17 +17,17 @@ const winningcombonations = [
 
 function checkforwin(player) {
     let result = false
+    
     for (condition of winningcombonations) {
         let [a, b, c] = boardspaces.filter((elem) => {
             return condition.indexOf(Number(elem.id)) >= 0;
         }).map(elem => elem.innerText);
         
         if ((a == player) && (a == b) & (b == c)) {
-            result = [a, b, c];
+            result = [...condition];
             break;
         }
     }
-
     return result;
 }
 
@@ -39,14 +39,19 @@ function playerBtnClick(eventObj){
 
     eventObj.target.innerText = currentPlayer
     let win = checkforwin(currentPlayer)
+
     if (!win) {
         currentPlayer = currentPlayer == "X" ? "O" : "X"
     }
     else {
         playgame = false
         gametext.innerText = `${currentPlayer} wins!`
+        for (space of boardspaces) {
+            if (win.indexOf(Number(space.id)) >= 0) {
+                space.style.background = "green";
+            }
+        }
     }
-
 }
 
 
@@ -57,10 +62,12 @@ function loadgame() {
     restartbtn.addEventListener("click", () => {
         for (space of boardspaces) {
             space.innerText = ""
+            space.style.background = "white";
         }
         playgame = true
         gametext.innerText = "Tic Tac Toe"
     })
 }
+
 
 loadgame()
