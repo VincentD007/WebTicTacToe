@@ -4,19 +4,31 @@ let restartbtn = document.getElementById("restartbtn")
 let currentPlayer = "X"
 var playgame = true
 const winningcombonations = [
-    [1,2,3],
-    [4,5,6],
-    [7,8,9],
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
     [1,4,7],
     [2,5,8],
-    [3,6,9],
-    [1,5,9],
-    [3,5,7]
+    [0,4,8],
+    [2,4,6]
 ]
 
 
 function checkforwin(player) {
-    return null
+    let result = false
+    for (condition of winningcombonations) {
+        let [a, b, c] = boardspaces.filter((elem) => {
+            return condition.indexOf(Number(elem.id)) >= 0;
+        }).map(elem => elem.innerText);
+        
+        if ((a == player) && (a == b) & (b == c)) {
+            result = [a, b, c];
+            break;
+        }
+    }
+
+    return result;
 }
 
 
@@ -32,7 +44,7 @@ function playerBtnClick(eventObj){
     }
     else {
         playgame = false
-        gametext.innerText = `Player ${currentPlayer} wins!`
+        gametext.innerText = `${currentPlayer} wins!`
     }
 
 }
